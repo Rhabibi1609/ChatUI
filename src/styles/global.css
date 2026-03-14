@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap');
+
+:root {
+  --bg:          #0a0c0f;
+  --panel:       #10141a;
+  --panel-hi:    #141c26;
+  --border:      #1e2530;
+  --border-hi:   #2e3d52;
+  --accent:      #00d4ff;
+  --accent-glow: rgba(0, 212, 255, 0.15);
+  --accent2:     #ff6b35;
+  --text:        #c8d8e8;
+  --text-dim:    #5a7080;
+  --text-faint:  #2a3a48;
+  --user-bg:     #0d1f30;
+  --ai-bg:       #111820;
+  --radius:      6px;
+  --mono:        'Share Tech Mono', monospace;
+  --sans:        'Barlow', sans-serif;
+  --cond:        'Barlow Condensed', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.012) 2px,
+    rgba(0, 212, 255, 0.012) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }

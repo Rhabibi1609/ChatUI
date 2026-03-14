@@ -1,0 +1,194 @@
+.msg {
+  display: flex;
+  gap: 12px;
+  max-width: 860px;
+  width: 100%;
+  animation: fadeUp 0.22s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.msg--user { align-self: flex-end; flex-direction: row-reverse; }
+.msg--ai   { align-self: flex-start; }
+
+/* Avatar */
+.msg__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.msg--user .msg__avatar {
+  background: var(--user-bg);
+  border: 1px solid #1a3a5c;
+  color: var(--accent);
+}
+.msg--ai .msg__avatar {
+  background: var(--ai-bg);
+  border: 1px solid var(--border-hi);
+  color: var(--accent2);
+}
+
+/* Bubble wrapper */
+.msg__wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: calc(100% - 44px);
+}
+.msg--user .msg__wrap { align-items: flex-end; }
+.msg--ai   .msg__wrap { align-items: flex-start; }
+
+/* Bubble */
+.msg__bubble {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: break-word;
+  white-space: pre-wrap;
+  position: relative;
+}
+.msg--user .msg__bubble {
+  background: var(--user-bg);
+  border: 1px solid #1a3a5c;
+  color: #d0e8ff;
+}
+.msg--ai .msg__bubble {
+  background: var(--ai-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.msg--ai .msg__bubble::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent2), transparent);
+  opacity: 0.5;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* Error bubble */
+.msg__bubble--error {
+  background: rgba(255, 80, 50, 0.07);
+  border-color: rgba(255, 80, 50, 0.3);
+  color: #ff7060;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.msg__bubble--error::before { display: none; }
+
+/* Sources badge */
+.sources-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 3px 8px;
+  cursor: default;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  user-select: none;
+}
+.sources-badge:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* Tooltip */
+.sources-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  background: var(--panel-hi);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius);
+  padding: 10px 13px;
+  min-width: 230px;
+  max-width: 340px;
+  max-height: 260px;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(5px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.sources-badge:hover .sources-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.sources-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.sources-tooltip__heading {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.source-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--text-faint);
+}
+.source-item:last-child { border-bottom: none; }
+.source-item__arrow { color: var(--accent2); font-size: 12px; }
+
+/* Thinking indicator */
+.thinking {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--ai-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+.thinking__dots { display: flex; gap: 4px; }
+.thinking__dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 1.2s ease-in-out infinite;
+}
+.thinking__dot:nth-child(2) { animation-delay: 0.2s; }
+.thinking__dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.75); }
+  40%           { opacity: 1;   transform: scale(1); }
+}
