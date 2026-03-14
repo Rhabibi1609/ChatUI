@@ -87,9 +87,22 @@
 }
 .msg__bubble--error::before { display: none; }
 
-/* Sources badge */
-.sources-badge {
+/* Sources List */
+.sources-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* Individual Source Button Wrapper */
+.source-btn-wrapper {
   position: relative;
+  display: inline-flex;
+}
+
+/* Source Button */
+.source-btn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -98,44 +111,44 @@
   color: var(--text-dim);
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 3px;
-  padding: 3px 8px;
+  border-radius: 4px;
+  padding: 4px 8px;
   cursor: default;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
   user-select: none;
 }
-.sources-badge:hover {
+.source-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
   background: var(--accent-glow);
 }
 
-/* Tooltip */
-.sources-tooltip {
+/* Source Tooltip */
+.source-tooltip {
   position: absolute;
   bottom: calc(100% + 8px);
   left: 0;
   background: var(--panel-hi);
   border: 1px solid var(--border-hi);
   border-radius: var(--radius);
-  padding: 10px 13px;
-  min-width: 230px;
-  max-width: 340px;
-  max-height: 260px;
+  padding: 12px 14px;
+  min-width: 260px;
+  max-width: 360px;
+  max-height: 280px;
   overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
   z-index: 200;
   opacity: 0;
   pointer-events: none;
   transform: translateY(5px);
-  transition: opacity 0.15s, transform 0.15s;
+  transition: opacity 0.2s, transform 0.2s;
 }
-.sources-badge:hover .sources-tooltip {
+.source-btn-wrapper:hover .source-tooltip {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
-.sources-tooltip::before {
+.source-tooltip::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -143,7 +156,7 @@
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   border-radius: var(--radius) var(--radius) 0 0;
 }
-.sources-tooltip__heading {
+.source-tooltip__heading {
   font-family: var(--cond);
   font-size: 11px;
   font-weight: 700;
@@ -151,19 +164,16 @@
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
 }
-.source-item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--text-dim);
-  padding: 4px 0;
-  border-bottom: 1px solid var(--text-faint);
+.source-tooltip__content {
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
 }
-.source-item:last-child { border-bottom: none; }
-.source-item__arrow { color: var(--accent2); font-size: 12px; }
 
 /* Thinking indicator */
 .thinking {
