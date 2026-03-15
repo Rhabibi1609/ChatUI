@@ -22,8 +22,8 @@ Open http://localhost:3000
 Set your server URL and API key in the top config bar of the UI.
 
 The Vite dev server proxies `/chat`, `/tts`, and `/health` to
-`http://localhost:8080` automatically, so you can leave the server
-field as `http://localhost:8080` during local development.
+`https://ragchatui-dwbyb0b8ajhtgvat.eastus-01.azurewebsites.net/` automatically, so you can leave the server
+field as `https://ragchatui-dwbyb0b8ajhtgvat.eastus-01.azurewebsites.net/` during local development.
 
 ## Build for production
 
