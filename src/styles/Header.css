@@ -35,7 +35,7 @@
   content: '';
   position: absolute;
   inset: 4px;
-  border: 1px solid rgba(0, 212, 255, 0.25);
+  border: 1px solid rgba(187, 187, 187, 0.25);
 }
 
 .header__title {
