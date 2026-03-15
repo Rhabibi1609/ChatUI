@@ -1,14 +1,14 @@
 .welcome {
   margin: auto;
   text-align: center;
-  padding: 48px 24px;
+  padding: 20px 24px;
   max-width: 500px;
   animation: fadeUp 0.35s ease both;
 }
 
 .welcome__icon {
-  width: 64px;
-  height: 64px;
+  width: 50px;
+  height: 50px;
   margin: 0 auto 20px;
   border: 1px solid var(--accent);
   display: grid;
@@ -27,7 +27,7 @@
 .welcome__title {
   font-family: var(--cond);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 24px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text);
@@ -55,7 +55,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 11px 13px;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-dim);
   cursor: pointer;
   text-align: left;
