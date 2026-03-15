@@ -1,9 +1,27 @@
-// SourcesBadge — individual source buttons that reveal content on hover
+import { useState, useRef, useEffect } from 'react';
+
+// SourcesBadge — individual source buttons that reveal content on hover or click
 export default function SourcesBadge({ sources }) {
+  const [activeSource, setActiveSource] = useState(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setActiveSource(null);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
   if (!sources || sources.length === 0) return null;
 
   return (
-    <div className="sources-list">
+    <div className="sources-list" ref={containerRef}>
       {sources.map((src, i) => {
         // Handle object formats (e.g. { name: '...', content: '...' } or { page: 151, content: '...' }) or plain string
         const isObj = typeof src === 'object' && src !== null;
@@ -14,9 +32,14 @@ export default function SourcesBadge({ sources }) {
           ? (src.content || src.name || JSON.stringify(src))
           : src;
 
+        const isActive = activeSource === i;
+
         return (
           <div className="source-btn-wrapper" key={src.id || i}>
-            <button className="source-btn">
+            <button 
+              className={`source-btn ${isActive ? 'source-btn--active' : ''}`}
+              onClick={() => setActiveSource(isActive ? null : i)}
+            >
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"/>
@@ -24,7 +47,7 @@ export default function SourcesBadge({ sources }) {
               </svg>
               {label}
             </button>
-            <div className="source-tooltip">
+            <div className={`source-tooltip ${isActive ? 'source-tooltip--active' : ''}`}>
               <div className="source-tooltip__heading">{label}</div>
               <div className="source-tooltip__content">{content}</div>
             </div>

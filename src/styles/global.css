@@ -20,6 +20,24 @@
   --cond:        'Barlow Condensed', sans-serif;
 }
 
+:root[data-theme='light'] {
+  --bg:          #ffffff;
+  --panel:       #f5f7fa;
+  --panel-hi:    #eef2f7;
+  --border:      #d1dbe5;
+  --border-hi:   #b0c0d0;
+  --accent:      #007bff;
+  --accent-glow: rgba(0, 123, 255, 0.15);
+  --accent2:     #e65a28;
+  --text:        #1a202c;
+  --text-dim:    #4a5568;
+  --text-faint:  #718096;
+  --user-bg:     #e6f0ff;
+  --ai-bg:       #f8fafc;
+  --radius:      8px;
+}
+
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

@@ -30,8 +30,21 @@ export default function App() {
   const [apiKey, setApiKey] = useState('cutr12!@');
   const [messages, setMessages] = useState([]);   // { id, role, text, sources?, isError? }
   const [thinking, setThinking] = useState(false);
+  
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
 
   const logRef = useRef(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   // Auto-scroll to bottom whenever messages change
   useEffect(() => {
@@ -63,7 +76,7 @@ export default function App() {
 
   return (
     <div style={appStyle}>
-      <Header />
+      <Header theme={theme} toggleTheme={toggleTheme} />
       <ConfigBar
         serverUrl={serverUrl}
         apiKey={apiKey}
