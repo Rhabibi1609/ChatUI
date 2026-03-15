@@ -15,7 +15,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+Open https://ragchatui-dwbyb0b8ajhtgvat.eastus-01.azurewebsites.net/
 
 ## Configuration
 
