@@ -10,7 +10,7 @@
  * @returns {{ response: string, sources: string[] }}
  */
 export async function sendChat(text, serverUrl, apiKey) {
-  const url = `${serverUrl.replace(/\/$/, '')}/chat`;
+  const url = `${serverUrl.replace(/\/$/, '')}/chat_compare`;
 
   const headers = { 'Content-Type': 'application/json' };
   if (apiKey) headers['x-api-key'] = apiKey;
