@@ -224,7 +224,7 @@ Run `npm run build` and upload the `dist/` folder to any static host (Netlify, V
 
 ### Environment variables
 
-This project does not use `.env` files. All runtime configuration (server URL and API key) is entered through the UI. The `.gitignore` includes `.env` and `.env.local` in case you add environment-based config in the future.
+This project does not use `.env` files. The API key and server URL are hardcoded directly in `App.jsx` (lines 28-29). The `.gitignore` includes `.env` and `.env.local` in case you add environment-based config in the future.
 
 ---
 
@@ -232,28 +232,32 @@ This project does not use `.env` files. All runtime configuration (server URL an
 
 The VRAI backend requires an `x-api-key` header on every request. Here is how the key flows through the application:
 
-1. **User enters the key** in the Config Bar at the top of the UI (the password-type input labeled "API KEY").
-2. **App.jsx stores it in React state** (`apiKey`), passed to `sendChat()` on every request.
-3. **chatApi.js attaches it** as the `x-api-key` header in the fetch call to the backend.
+1. **API key is hardcoded** in `App.jsx` line 29 as the default value of the `apiKey` state.
+2. **Server URL is left empty** in `App.jsx` line 28 -- requests go to the same origin, which Vite (dev) or Nginx (production) proxies to the backend.
+3. **chatApi.js attaches the key** as the `x-api-key` header in the fetch call to the backend.
 
 ```
-User types key into Config Bar
-        |
-        v
-App.jsx state: apiKey
+App.jsx state: apiKey (hardcoded default)
         |
         v
 chatApi.js: headers['x-api-key'] = apiKey
         |
         v
-POST /chat --> Backend validates key
+fetch('/chat') --> Vite proxy / Nginx --> Backend at :8080
+```
+
+To change the API key or server URL, edit these lines in `src/App.jsx`:
+
+```javascript
+const [serverUrl, setServerUrl] = useState('');        // line 28
+const [apiKey, setApiKey]       = useState('YOUR_KEY'); // line 29
 ```
 
 Important notes:
-- The key is **not persisted** between sessions. Refreshing the page clears it.
-- The key is **never written to disk** or local storage.
+- The API key is hardcoded in source. Do not commit production keys to public repositories.
+- The server URL being empty means all API calls use relative paths (`/chat`), which the proxy layer resolves.
 - Always serve the application over **HTTPS** in production to protect the key in transit.
-- If you want to hardcode a default key for internal use, set the initial value of `apiKey` in `App.jsx` line 29.
+- A `ConfigBar` component exists in the codebase (`src/components/ConfigBar.jsx`) that provides UI inputs for the server URL and API key, but it is **not currently rendered**. See the ConfigBar entry in the Component Reference for wiring instructions.
 
 ---
 
@@ -269,8 +273,8 @@ All state lives in `App.jsx` via `useState` hooks. There is no external state li
 
 | State variable | Type | Purpose |
 |---|---|---|
-| `serverUrl` | string | Backend URL entered in the Config Bar |
-| `apiKey` | string | API key entered in the Config Bar |
+| `serverUrl` | string | Backend URL, defaults to empty (uses same-origin proxy) |
+| `apiKey` | string | API key, hardcoded default in source |
 | `messages` | array | Chat history: `{ id, role, text, sources?, isError? }` |
 | `thinking` | boolean | Controls the loading indicator |
 | `theme` | string | `'dark'` or `'light'`, persisted to localStorage |
@@ -434,7 +438,7 @@ To use this workflow, add your Azure publish profile as a repository secret name
 |---|---|---|
 | Blank page after build | `base` in vite.config.js does not match deployment path | Set `base` to `/` for root deployment or `/ChatUI/` for sub-path |
 | CORS errors in browser | Dev proxy not running, or hitting backend directly | Run `npm run dev` (uses Vite proxy), or configure CORS on backend |
-| "Connection failed" error | Wrong server URL or backend is down | Check the Server URL in Config Bar; verify backend with `curl {url}/health` |
+| "Connection failed" error | Wrong server URL or backend is down | Verify `serverUrl` in App.jsx and proxy config; test with `curl http://localhost:8080/health` |
 | Citations not rendering | Backend returning unexpected response format | chatApi.js handles string, array, and object formats; check the raw response in DevTools Network tab |
 | Theme not persisting | localStorage blocked | Check browser privacy settings; theme falls back to dark |
 | Docker container 502 | Backend not reachable at 127.0.0.1:8080 | Edit `proxy_pass` in nginx.conf to match your backend address |
