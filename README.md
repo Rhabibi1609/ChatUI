@@ -377,7 +377,45 @@ The UI uses vanilla CSS with CSS custom properties for theming. No CSS framework
 
 ---
 
-## CI/CD
+## CI/CD and Deployment
+
+### Oracle Cloud Infrastructure (OCI) -- Primary Production
+
+The application runs in production on an Oracle Cloud VM behind the domain `cutrdnt.ddns.net`. Deployment is done manually via SSH and Docker:
+
+```bash
+# SSH into the OCI instance
+ssh opc@<oci-instance-ip>
+
+# Navigate to the project
+cd /home/opc/ChatUI/vr-chat
+
+# Pull latest changes
+git pull origin master
+
+# Rebuild and restart the container
+docker build -t chatui .
+docker stop chatui-container 2>/dev/null || true
+docker rm chatui-container 2>/dev/null || true
+docker run -d --name chatui-container --network host -p 3000:3000 chatui
+```
+
+The Docker container runs Nginx on port 3000, which serves the built SPA and proxies API routes (`/chat_compare`, `/tts`, `/health`) to the VRAI backend at `127.0.0.1:8080` on the same host.
+
+Key OCI details:
+
+| Item | Value |
+|---|---|
+| Instance type | Oracle Cloud VM (Always Free tier eligible) |
+| OS | Oracle Linux / Ubuntu |
+| Frontend port | 3000 (Nginx inside Docker) |
+| Backend port | 8080 (VRAI server, same host) |
+| Domain | `cutrdnt.ddns.net` (DDNS) |
+| Reverse proxy | Nginx via `nginx.conf` in this repo |
+
+Make sure the OCI security list / firewall allows inbound traffic on port 3000 (or whichever port you expose).
+
+### Azure Web App -- Automated CI/CD
 
 A GitHub Actions workflow (`.github/workflows/master_ragchatui-app.yml`) runs on every push to `master`:
 
@@ -386,7 +424,7 @@ A GitHub Actions workflow (`.github/workflows/master_ragchatui-app.yml`) runs on
 3. Runs `npm install` and `npm run build`.
 4. Deploys to Azure Web App "RAGCHATUI" using the `AZURE_WEBAPP_PUBLISH_PROFILE` secret.
 
-To use this workflow, add your Azure publish profile as a repository secret named `AZURE_WEBAPP_PUBLISH_PROFILE`.
+To use this workflow, add your Azure publish profile as a repository secret named `AZURE_WEBAPP_PUBLISH_PROFILE`. If you are only using OCI, you can disable or remove this workflow.
 
 ---
 
