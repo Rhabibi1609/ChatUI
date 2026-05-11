@@ -442,3 +442,11 @@ To use this workflow, add your Azure publish profile as a repository secret name
 | Citations not rendering | Backend returning unexpected response format | chatApi.js handles string, array, and object formats; check the raw response in DevTools Network tab |
 | Theme not persisting | localStorage blocked | Check browser privacy settings; theme falls back to dark |
 | Docker container 502 | Backend not reachable at 127.0.0.1:8080 | Edit `proxy_pass` in nginx.conf to match your backend address |
+
+---
+
+## Images
+<img width="1907" height="868" alt="Screenshot 2026-05-11 164318" src="https://github.com/user-attachments/assets/e92b79ae-d0ea-45a7-b767-6ea97f457c12" />
+<img width="1902" height="868" alt="Screenshot 2026-05-11 164236" src="https://github.com/user-attachments/assets/2c1b9bb2-d4bc-45f4-9f38-bf2904b1ba8c" />
+<img width="1108" height="572" alt="Screenshot 2026-05-11 164255" src="https://github.com/user-attachments/assets/2a68e32f-57d9-4345-87e6-08365fc941ff" />
+
